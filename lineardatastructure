@@ -1,0 +1,295 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        
+class LinkedList:
+    def __init__(self):
+        self.head = None
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head
+        self.head = new_node
+    def printList(self):
+        temp = self.head
+        while(temp):
+            print(temp.data)
+            temp = temp.next
+# Delete the elements in an linked list whose sum is equal to zero
+    def deleteNode(self, key):
+        temp = self.head
+        if temp is not None:
+            if(temp.data)==key:
+                self.head=temp.next
+                temp.none
+        while(temp is not None):
+            if temp.data == key:
+                break
+            prev = temp
+            temp = temp.next
+        prev.next = temp.next
+    def reverse(self):
+        prev= None
+        current= self.head
+        while(current is not None):
+            next = current.next
+            current.next = prev
+            prev = current
+            current = next
+        self.head = prev
+    def merge(self, p,q):
+        p_curr = p.head
+        q_curr = q.head
+        
+        while p_curr!= None and q_curr!=None:
+            p_next = p_curr.next
+            q_next = q_curr.next
+            
+            q_curr.next = p_next  
+            p_curr.next = q_curr 
+            
+            p_curr = p_next
+            q_curr = q_next
+            q.head = q_curr
+             
+            
+    
+    
+llist = LinkedList()
+llist.push(7)
+llist.push(1)
+llist.push(0)
+llist.push(2)
+print ("Created Linked List: ")
+llist.printList()
+
+
+#1.Delete the elements in an linked list whose sum is equal to zero
+
+llist.deleteNode(0)
+print ("Linked List after Deletion of sum 0:")
+llist.printList()
+#2. Reverse a linked list in groups of given size
+llist.reverse()
+print ("Linked List after reverse:")
+llist.printList()
+
+#3. Merge a linked list into another linked list at alternate positions.
+llist1 = LinkedList()
+llist2 = LinkedList()
+llist1.push(3)
+llist1.push(2)
+llist1.push(1)
+llist1.push(0)
+for i in range(8, 3, -1):
+    llist2.push(i)
+
+print("First Linked List:")
+llist1.printList()
+print("Second Linked List:")
+llist2.printList()
+
+llist1.merge(p=llist1, q=llist2)
+
+print("Modified first linked list:")
+llist1.printList()
+print("Modified second linked list:")
+llist2.printList()
+
+
+#In an array, Count Pairs with given sum
+
+def count_pairs_with_sum(arr, target_sum):
+    dict = {}
+    count = 0
+    
+    # count frequency of each element in the array
+    for x in arr:
+        dict[x] = dict.get(x, 0) + 1
+        
+    # count pairs with given sum
+    for x in arr:
+        diffe = target_sum - x
+        if diffe in dict:
+            count += dict[diffe]
+            if x == diffe:
+                count -= 1
+                # count pairs with given sum
+    for x in arr:
+        diffe = target_sum - x
+        if diffe in dict:
+            count += dict[diffe]
+            if x == diffe:
+                count -= 1
+    return count // 2
+arr = [1, 5, 7, -1, 5]
+target_sum = 6
+count = count_pairs_with_sum(arr, target_sum)
+print(count)
+
+#5 Find duplicates in an array
+def find_duplicates(arr):
+    freq = {}
+    duplicates = []
+    
+    # count frequency of each element in the array
+    for x in arr:
+        freq[x] = freq.get(x, 0) + 1
+    
+    # find duplicates
+    for x in arr:
+        if freq[x] > 1 and x not in duplicates:
+            duplicates.append(x)
+    return duplicates
+arr = [1, 2, 3, 1, 4, 2, 5]
+duplicates = find_duplicates(arr)
+print(duplicates)
+
+
+
+
+def kth_smallest_largest_sort(arr, k):
+    # find kth smallest number
+    arr.sort()
+    kth_smallest = arr[k-1]
+    
+    # find kth largest number
+    arr.sort(reverse=True)
+    kth_largest = arr[k-1]
+    
+    return kth_smallest, kth_largest
+arr = [10, 20, 15, 1, 8]
+k = 3
+kth_smallest, kth_largest = kth_smallest_largest_sort(arr, k)
+print(kth_smallest)  
+print(kth_largest)   
+
+import heapq
+
+def kth_smallest_largest_heap(arr, k):
+    # find kth largest number
+    min_heap = arr[:k]
+    heapq.heapify(min_heap)
+    for x in arr[k:]:
+        if x > min_heap[0]:
+            heapq.heappop(min_heap)
+            heapq.heappush(min_heap, x)
+    kth_largest = min_heap[0]
+    
+    # find kth smallest number
+    max_heap = [-x for x in arr[:k]]
+    heapq.heapify(max_heap)
+    for x in arr[k:]:
+        if x < -max_heap[0]:
+            heapq.heappop(max_heap)
+            heapq.heappush(max_heap, -x)
+    kth_smallest = -max_heap[0]
+    
+    return kth_smallest, kth_largest
+    
+    
+    
+    #7 Move all the negative elements to one side of the array
+def move_negatives(arr):
+    n = len(arr)
+    i, j = 0, n-1
+    
+    while i < j:
+        # find the first negative element from the left
+        while i < n and arr[i] >= 0:
+            i += 1
+        
+        # find the first positive element from the right
+        while j >= 0 and arr[j] < 0:
+            j -= 1
+        
+        if i < j:
+            # swap elements at positions i and j
+            arr[i], arr[j] = arr[j], arr[i]
+    
+    return arr
+arr = [5, -2, 3, -1, 8, -4, 7]
+print(move_negatives(arr))
+
+
+#8 Reverse a string using a stack data structure
+def reverse_string(string):
+    stack = []
+    # push all characters onto the stack
+    for char in string:
+        stack.append(char)
+    
+    reversed_string = ''
+    # pop all characters from the stack to get the reversed string
+    while stack:
+        reversed_string += stack.pop()
+    
+    return reversed_string
+string = 'Edyoda!'
+print(reverse_string(string))
+
+#9 Evaluate a postfix expression using stack
+def evaluate_postfix(expression):
+    stack = []
+    operators = set(['+', '-', '*', '/', '^'])
+
+    for char in expression:
+        if char.isdigit():
+            # if the character is a digit, push it onto the stack as an integer
+            stack.append(int(char))
+        elif char in operators:
+            # if the character is an operator, pop two operands from the stack,
+            # perform the corresponding operation, and push the result back onto the stack
+            operand2 = stack.pop()
+            operand1 = stack.pop()
+            if char == '+':
+                stack.append(operand1 + operand2)
+            elif char == '-':
+                stack.append(operand1 - operand2)
+            elif char == '*':
+                stack.append(operand1 * operand2)
+            elif char == '/':
+                stack.append(operand1 / operand2)
+            elif char == '^':
+                stack.append(operand1 ** operand2)
+
+    # the final element on the stack is the result of the expression
+    return stack[-1]
+expression = '23*54*+9-'
+print(evaluate_postfix(expression))
+
+
+
+#10 Implement a queue using the stack data structure
+class Queue:
+    def __init__(self):
+        self.stack1 = []
+        self.stack2 = []
+
+    def enqueue(self, element):
+        # push the element onto the first stack
+        self.stack1.append(element)
+
+    def dequeue(self):
+        if not self.stack2:
+            # if the second stack is empty, pop all elements from the first stack
+            # and push them onto the second stack
+            while self.stack1:
+                self.stack2.append(self.stack1.pop())
+
+        if not self.stack2:
+            # if both stacks are empty, return None
+            return None
+
+        # pop the top element from the second stack and return it
+        return self.stack2.pop()
+queue = Queue()
+queue.enqueue(5)
+queue.enqueue(2)
+queue.enqueue(9)
+print(queue.dequeue())  
+print(queue.dequeue()) 
+queue.enqueue(4)
+print(queue.dequeue())  
+print(queue.dequeue())  
+print(queue.dequeue())  
